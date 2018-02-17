@@ -6,46 +6,51 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-public class SharedDataStructure {
+public class SharedDataStructure<T> {
 
-    private List<ChatProcotol.Chat> history;
+    private List<T> data;
     private ReentrantReadWriteLock lock;
 
     public SharedDataStructure() {
-        this.history = new ArrayList<>();
+        this.data = new ArrayList<>();
         this.lock = new ReentrantReadWriteLock();
     }
 
-    public void add(ChatProcotol.Chat chat) {
+    public void add(T element) {
         this.lock.writeLock().lock();
-        this.history.add(chat);
+        this.data.add(element);
         this.lock.writeLock().unlock();
     }
 
+    public int size() {
+        this.lock.readLock().lock();
+        int size = this.data.size();
+        this.lock.readLock().unlock();
+
+        return size;
+    }
+
     /**
-     * Deep copy the history into a new ArrayList to return.
+     * Deep copy the data list into a new ArrayList to return.
+     * Shallow copy the elements since we are storing immutable objects in this application.
      *
      * @return List
      *      - a list of chat
      */
-    public List<ChatProcotol.Chat> get() {
-        List<ChatProcotol.Chat> history = new ArrayList<>();
+    public List<T> get() {
+        List<T> data = new ArrayList<>();
 
         this.lock.readLock().lock();
-        for (ChatProcotol.Chat chat : this.history) {
-            history.add(chat);
-        }
+        data.addAll(this.data);
         this.lock.readLock().unlock();
 
-        return history;
+        return data;
     }
 
-    public void newHistory(List<ChatProcotol.Chat> history) {
+    public void replaceAll(List<T> data) {
         this.lock.writeLock().lock();
-        this.history = new ArrayList<>();
-        for (ChatProcotol.Chat chat : history) {
-            this.history.add(chat);
-        }
+        this.data = new ArrayList<>();
+        this.data.addAll(data);
         this.lock.writeLock().unlock();
     }
 }

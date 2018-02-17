@@ -1,9 +1,9 @@
 package cs682;
 
 import chatprotos.ChatProcotol;
+import com.google.protobuf.ByteString;
 import concurrent.SharedDataStructure;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.*;
 import java.util.HashMap;
@@ -41,14 +41,14 @@ public class Chat {
     /**
      * Thread-safe data structure for storing the history of broadcast messages.
      */
-    protected static final SharedDataStructure history = new SharedDataStructure();
+    protected static final SharedDataStructure<ChatProcotol.Chat> history = new SharedDataStructure<>();
 
     /**
      * Thread-safe data structure for storing information of nodes on ZooKeeper locally.
      */
     protected static Hashtable<String, ChatProcotol.ZKData> nodes = new Hashtable<>();
 
-    protected static final Hashtable<String, Integer> internalState = new Hashtable<>();
+    protected static final Hashtable<String, SharedDataStructure<ByteString>> historyFromOthers = new Hashtable<>();
 
     /**
      * Customized ZooKeeper object.
