@@ -1,15 +1,14 @@
 package cs682;
 
 import chatprotos.ChatProcotol;
+import concurrent.SharedDataStructure;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.*;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
-import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -40,14 +39,16 @@ public class Chat {
     protected static volatile boolean alive = true;
 
     /**
-     * Thread-safe data structure for storing broadcast messages in order.
+     * Thread-safe data structure for storing the history of broadcast messages.
      */
-    protected static final Vector<ChatProcotol.Chat> history = new Vector<>();
+    protected static final SharedDataStructure history = new SharedDataStructure();
 
     /**
      * Thread-safe data structure for storing information of nodes on ZooKeeper locally.
      */
     protected static Hashtable<String, ChatProcotol.ZKData> nodes = new Hashtable<>();
+
+    protected static final Hashtable<String, Integer> internalState = new Hashtable<>();
 
     /**
      * Customized ZooKeeper object.
@@ -55,9 +56,14 @@ public class Chat {
     protected static MyZooKeeper zk;
 
     /**
-     * Static Receiver.
+     * Static TCP Receiver.
      */
     protected static ServerSocket receiverSocket;
+
+    /**
+     * Static UDP Receiver.
+     */
+    protected static DatagramSocket udpSocket;
 
     /**
      * Main thread to start the program.
@@ -80,10 +86,11 @@ public class Chat {
             return; // exit
         }
 
-        // start listening TCP
+        // start listening on TCP port
         new Chat().startReceiver(arguments.get("port"));
 
-        // start listening UDP
+        // start listening on UDP port
+        new Chat().startUDPReceiver(arguments.get("udpport"));
 
         // build ZooKeeper and register node
         try {
@@ -131,7 +138,15 @@ public class Chat {
             else if (args[i].equals("-port") && i < len - 1) {
                 map.put("port", args[++i]);
             }
+            else if (args[i].equals("-udpport") && i < len - 1) {
+                map.put("udpport", args[++i]);
+            }
         }
+
+        // TODO: delete before deploy
+        map.put("username", "cusng4");
+        map.put("port", "8080");
+        map.put("udpport", "8081");
 
         return map;
     }
@@ -150,6 +165,7 @@ public class Chat {
             public void run() {
                 try {
                     Chat.receiverSocket = new ServerSocket(Integer.parseInt(port));
+
                     while (Chat.alive) {
                         Socket listeningSocket = Chat.receiverSocket.accept();
                         receiverPool.submit(new Receiver(listeningSocket));
@@ -158,6 +174,34 @@ public class Chat {
                 catch (IOException ignore) {
                     // exception will happened when we close receiverSocket
                     receiverPool.shutdown();
+                }
+            }
+        };
+
+        Thread receiverThread = new Thread(receiverTask);
+        receiverThread.start();
+    }
+
+    private void startUDPReceiver(String udpport) {
+        final ExecutorService udpReceiverPool = Executors.newFixedThreadPool(THREADS);
+
+        Runnable receiverTask = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Chat.udpSocket = new DatagramSocket(Integer.parseInt(udpport));
+
+                    while (Chat.alive) {
+                        byte[] empty = new byte[1024];
+                        DatagramPacket packet = new DatagramPacket(empty, empty.length);
+
+                        udpSocket.receive(packet);
+                        udpReceiverPool.submit(new UDPReceiver(packet));
+                    }
+                }
+                catch (IOException ignore) {
+                    // exception will happened when we close receiverSocket
+                    udpReceiverPool.shutdown();
                 }
             }
         };

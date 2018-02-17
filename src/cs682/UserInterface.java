@@ -100,12 +100,15 @@ public class UserInterface {
      * Welcome message.
      */
     private void startInfo() {
-        System.out.println("**************************************");
-        System.out.println("*                                    *");
-        System.out.println("*   Welcome to Grrrr!                *");
-        System.out.println("*   Enter command or type \"help\".    *");
-        System.out.println("*                                    *");
-        System.out.println("**************************************");
+        StringBuilder sb = new StringBuilder();
+        sb.append("**************************************").append(System.lineSeparator());
+        sb.append("*                                    *").append(System.lineSeparator());
+        sb.append("*   Welcome to Grrrr!                *").append(System.lineSeparator());
+        sb.append("*   Enter command or type \"help\".    *").append(System.lineSeparator());
+        sb.append("*                                    *").append(System.lineSeparator());
+        sb.append("**************************************");
+
+        System.out.println(sb.toString());
     }
 
     /**
@@ -196,8 +199,10 @@ public class UserInterface {
      */
     private void history() {
         if (this.inputArgs.size() == 1) {
+            List<ChatProcotol.Chat> history = Chat.history.get();
+
             System.out.println("[System] Broadcast history:");
-            for (ChatProcotol.Chat chat : Chat.history) {
+            for (ChatProcotol.Chat chat : history) {
                 System.out.println(chat.getFrom() + ": " + chat.getMessage());
             }
         }

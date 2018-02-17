@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * A runnable Receiver to handle single connection.
@@ -36,20 +35,12 @@ public class Receiver implements Runnable {
         try (InputStream inStream = this.listeningSocket.getInputStream();
              OutputStream outStream = this.listeningSocket.getOutputStream()) {
 
-            SimpleDateFormat sdf = new SimpleDateFormat("(yyyy-MM-dd HH:mm:ss)");
-            String date = sdf.format(new Date());
-
             ChatProcotol.Chat request = ChatProcotol.Chat.parseDelimitedFrom(inStream);
             System.out.println((request.getIsBcast() ? "Broadcast" : "Private message")
-                    + " from " + request.getFrom() + ": " + request.getMessage() + " " + date);
+                    + " from " + request.getFrom() + ": " + request.getMessage());
 
             if (request.getIsBcast()) {
-                Chat.history.add(
-                        ChatProcotol.Chat.newBuilder()
-                                .setFrom(request.getFrom())
-                                .setMessage(request.getMessage() + " " + date)
-                                .setIsBcast(request.getIsBcast()).build()
-                );
+                Chat.history.add(request);
             }
 
             // if received message from unknown nodes, refresh local nodes data
