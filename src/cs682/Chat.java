@@ -117,8 +117,6 @@ public class Chat {
 
         // start user interface to accept commands
         new Chat().startUserInterface();
-
-        //ChatProcotol.History h = ChatProcotol.History.newBuilder().addHistory().build();
     }
 
     /**

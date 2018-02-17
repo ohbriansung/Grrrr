@@ -2,6 +2,7 @@ package cs682;
 
 import chatprotos.ChatProcotol;
 import com.google.protobuf.ByteString;
+import concurrent.Download;
 import concurrent.SharedDataStructure;
 
 import java.io.ByteArrayInputStream;
@@ -111,5 +112,6 @@ public class UDPReceiver implements Runnable {
 
     private void request() {
         System.out.println("[System] someone just sent a request!");
+        Download download = new Download(Chat.history.get(), 4);
     }
 }
