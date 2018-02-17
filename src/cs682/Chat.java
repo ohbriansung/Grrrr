@@ -144,7 +144,7 @@ public class Chat {
         }
 
         // TODO: delete before deploy
-        map.put("username", "cusng4");
+        map.put("username", "csung4");
         map.put("port", "8080");
         map.put("udpport", "8081");
 

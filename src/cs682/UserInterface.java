@@ -36,6 +36,7 @@ public class UserInterface {
         this.com.put("list", this::list);
         this.com.put("send", this::send);
         this.com.put("broadcast", this::broadcast);
+        this.com.put("request", this::request);
         this.com.put("history", this::history);
         this.com.put("style", this::style);
         this.com.put("detail", this::detail);
@@ -120,10 +121,11 @@ public class UserInterface {
         System.out.println("(2) list");
         System.out.println("(3) send [username] \"message\"");
         System.out.println("(4) broadcast \"message\"");
-        System.out.println("(5) history");
-        System.out.println("(6) style content");
-        System.out.println("(7) detail [username]");
-        System.out.println("(8) exit");
+        System.out.println("(5) request [username]");
+        System.out.println("(6) history");
+        System.out.println("(7) style content");
+        System.out.println("(8) detail [username]");
+        System.out.println("(9) exit");
         System.out.println("* message example: send [csung4] \"hello!\"");
     }
 
@@ -194,6 +196,21 @@ public class UserInterface {
         }
     }
 
+    private void request() {
+        if (this.inputArgs.size() == 2) {
+            String requestUser = this.inputArgs.get(1);
+            requestUser = requestUser.substring(1, requestUser.length() - 1);
+            ChatProcotol.ZKData zkData = Chat.nodes.get(requestUser);
+
+            Runnable reqTask = new UDPSender(zkData.getIp(), zkData.getUdpport());
+            Thread reqThread = new Thread(reqTask);
+            reqThread.start();
+        }
+        else {
+            errorMessage();
+        }
+    }
+
     /**
      * Display all broadcast message received by the user in order.
      */
@@ -237,7 +254,8 @@ public class UserInterface {
             }
             else {
                 ChatProcotol.ZKData zkData = Chat.nodes.get(username);
-                System.out.println("[System] " + username + " is listening on " + zkData.getIp() + ":" + zkData.getPort());
+                System.out.println("[System] " + username + " ip: " + zkData.getIp()
+                        + " port:" + zkData.getPort() + " udpport: " + zkData.getUdpport());
             }
         }
         else {

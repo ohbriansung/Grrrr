@@ -47,26 +47,31 @@ public class UDPReceiver implements Runnable {
 
     private void initMap() {
         this.map.put(ChatProcotol.Data.packetType.DATA, this::data);
+        this.map.put(ChatProcotol.Data.packetType.REQUEST, this::request);
     }
 
     private void data() {
-        if (!Chat.historyFromOthers.containsKey(this.from)) {
+        if (this.data.getSeqNo() == 1 && !Chat.historyFromOthers.containsKey(this.from)) {
             Chat.historyFromOthers.put(this.from, new SharedDataStructure<>());
         }
 
-        SharedDataStructure<ByteString> byteStrings = Chat.historyFromOthers.get(this.from);
-        if (this.data.getSeqNo() == byteStrings.size() + 1) {
-            int len = this.data.getData().toByteArray().length;
+        if (Chat.historyFromOthers.containsKey(this.from)) {
+            SharedDataStructure<ByteString> byteStrings = Chat.historyFromOthers.get(this.from);
 
-            // if not the last packet, the data size should be 10
-            if (len == 10 || this.data.getIsLast()) {
-                byteStrings.add(this.data.getData());
+            if (this.data.getSeqNo() == byteStrings.size() + 1) {
+                int len = this.data.getData().toByteArray().length;
+
+                // if not the last packet, the data size should be 10
+                if (len == 10 || this.data.getIsLast()) {
+                    byteStrings.add(this.data.getData());
+                }
+
+                sendAcknowledgement(this.data.getSeqNo());
             }
 
-        }
-
-        if (this.data.getIsLast() && byteStrings.size() == this.data.getSeqNo()) {
-            finishData(byteStrings);
+            if (this.data.getIsLast() && byteStrings.size() == this.data.getSeqNo()) {
+                finishData(byteStrings);
+            }
         }
     }
 
@@ -85,10 +90,26 @@ public class UDPReceiver implements Runnable {
         try {
             List<ChatProcotol.Chat> history = ChatProcotol.History.parseFrom(temp).getHistoryList();
             Chat.history.replaceAll(history);
-            System.out.println("finished");
+            System.out.println("[System] new history has been loaded.");
+
+            Chat.historyFromOthers.remove(this.from);
         }
         catch (IOException ioe) {
-            System.err.println(ioe);
+            System.err.println("[System] issue occurred when parsing a history packet.");
         }
+    }
+
+    private void sendAcknowledgement(int seqNo) {
+        ChatProcotol.Data.packetType type = ChatProcotol.Data.packetType.ACK;
+        String[] host = this.from.split(":");
+
+        Runnable ackTask = new UDPSender(type, host[0], host[1], seqNo);
+
+        Thread ackThread = new Thread(ackTask);
+        ackThread.start();
+    }
+
+    private void request() {
+        System.out.println("[System] someone just sent a request!");
     }
 }
