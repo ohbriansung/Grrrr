@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1ccf3383-20db-444b-ad6c-47272bb6b15c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/concurrent/SharedDataStructure.java" afterPath="$PROJECT_DIR$/src/concurrent/SharedDataStructure.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cs682/Chat.java" afterPath="$PROJECT_DIR$/src/cs682/Chat.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cs682/UDPReceiver.java" afterPath="$PROJECT_DIR$/src/cs682/UDPReceiver.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
@@ -41,12 +39,12 @@
       <file leaf-file-name="UDPReceiver.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/cs682/UDPReceiver.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="371">
-              <caret line="84" column="47" lean-forward="true" selection-start-line="84" selection-start-column="47" selection-end-line="84" selection-end-column="47" />
+            <state relative-caret-position="292">
+              <caret line="61" column="45" lean-forward="false" selection-start-line="61" selection-start-column="45" selection-end-line="61" selection-end-column="45" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1376#1377#0" expanded="true" />
-                <element signature="e#1451#1452#0" expanded="true" />
+                <element signature="e#1289#1290#0" expanded="true" />
+                <element signature="e#1364#1365#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -497,12 +495,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/cs682/UDPReceiver.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
-          <caret line="84" column="47" lean-forward="true" selection-start-line="84" selection-start-column="47" selection-end-line="84" selection-end-column="47" />
+        <state relative-caret-position="292">
+          <caret line="61" column="45" lean-forward="false" selection-start-line="61" selection-start-column="45" selection-end-line="61" selection-end-column="45" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1376#1377#0" expanded="true" />
-            <element signature="e#1451#1452#0" expanded="true" />
+            <element signature="e#1289#1290#0" expanded="true" />
+            <element signature="e#1364#1365#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -2,9 +2,7 @@ package cs682;
 
 import chatprotos.ChatProcotol;
 import com.google.protobuf.ByteString;
-import com.google.protobuf.InvalidProtocolBufferException;
 import concurrent.SharedDataStructure;
-import sun.nio.cs.US_ASCII;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -60,7 +58,7 @@ public class UDPReceiver implements Runnable {
         if (this.data.getSeqNo() == byteStrings.size() + 1) {
             int len = this.data.getData().toByteArray().length;
 
-            // if not the last, the packet size should be 10
+            // if not the last packet, the data size should be 10
             if (len == 10 || this.data.getIsLast()) {
                 byteStrings.add(this.data.getData());
             }
@@ -68,25 +66,29 @@ public class UDPReceiver implements Runnable {
         }
 
         if (this.data.getIsLast() && byteStrings.size() == this.data.getSeqNo()) {
-            List<ByteString> list = byteStrings.get();
-            int len = (list.size() - 1) * 10 + this.data.getData().toByteArray().length;
-            int index = 0;
-            byte[] temp = new byte[len];
+            finishData(byteStrings);
+        }
+    }
 
-            for (ByteString byteString : list) {
-                for (byte oneByte : byteString.toByteArray()) {
-                    temp[index++] = oneByte;
-                }
-            }
+    private void finishData(SharedDataStructure<ByteString> byteStrings) {
+        List<ByteString> list = byteStrings.get();
+        int len = (list.size() - 1) * 10 + this.data.getData().toByteArray().length;
+        int index = 0;
+        byte[] temp = new byte[len];
 
-            try {
-                List<ChatProcotol.Chat> history = ChatProcotol.History.parseFrom(temp).getHistoryList();
-                Chat.history.replaceAll(history);
-                System.out.println("finished");
+        for (ByteString byteString : list) {
+            for (byte oneByte : byteString.toByteArray()) {
+                temp[index++] = oneByte;
             }
-            catch (IOException ioe) {
-                System.err.println(ioe);
-            }
+        }
+
+        try {
+            List<ChatProcotol.Chat> history = ChatProcotol.History.parseFrom(temp).getHistoryList();
+            Chat.history.replaceAll(history);
+            System.out.println("finished");
+        }
+        catch (IOException ioe) {
+            System.err.println(ioe);
         }
     }
 }
