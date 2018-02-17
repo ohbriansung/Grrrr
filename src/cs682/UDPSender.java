@@ -15,6 +15,7 @@ public class UDPSender implements Runnable {
     private final ChatProcotol.Data.packetType type;
     private final String ip;
     private final String port;
+    private ChatProcotol.Data data;
     private int seqNo;
 
     public UDPSender(String ip, String port) {
@@ -24,12 +25,20 @@ public class UDPSender implements Runnable {
         this.port = port;
     }
 
-    public UDPSender(ChatProcotol.Data.packetType type, String ip, String port, int seqNo) {
+    public UDPSender(String ip, String port, int seqNo) {
         this.map = new HashMap<>();
-        this.type = type;
+        this.type = ChatProcotol.Data.packetType.ACK;
         this.ip = ip;
         this.port = port;
         this.seqNo = seqNo;
+    }
+
+    public UDPSender(String ip, String port, ChatProcotol.Data data) {
+        this.map = new HashMap<>();
+        this.type = ChatProcotol.Data.packetType.DATA;
+        this.ip = ip;
+        this.port = port;
+        this.data = data;
     }
 
     @Override
@@ -40,8 +49,15 @@ public class UDPSender implements Runnable {
     }
 
     private void initMap() {
-        this.map.put(ChatProcotol.Data.packetType.ACK, this::ack);
         this.map.put(ChatProcotol.Data.packetType.REQUEST, this::request);
+        this.map.put(ChatProcotol.Data.packetType.ACK, this::ack);
+        this.map.put(ChatProcotol.Data.packetType.DATA, this::data);
+    }
+
+    private void request() {
+        ChatProcotol.Data data = ChatProcotol.Data.newBuilder().setType(this.type).build();
+
+        send(data);
     }
 
     private void ack() {
@@ -51,10 +67,8 @@ public class UDPSender implements Runnable {
         send(data);
     }
 
-    private void request() {
-        ChatProcotol.Data data = ChatProcotol.Data.newBuilder().setType(this.type).build();
-
-        send(data);
+    private void data() {
+        send(this.data);
     }
 
     private void send(ChatProcotol.Data data) {

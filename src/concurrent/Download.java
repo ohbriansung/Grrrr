@@ -14,6 +14,7 @@ public class Download {
     private final List<ChatProcotol.Data> dataPackets;
     private List<ChatProcotol.Chat> data;
     private byte[] bytes;
+    private Thread currentThread;
 
     private ReentrantReadWriteLock lock;
     private int state;
@@ -51,6 +52,14 @@ public class Download {
         }
     }
 
+    public void setThread(Thread currentThread) {
+        this.currentThread = currentThread;
+    }
+
+    public Thread getThread() {
+        return this.currentThread;
+    }
+
     public List<ChatProcotol.Data> get() {
         return this.dataPackets;
     }
@@ -69,8 +78,8 @@ public class Download {
 
     public void changeState(int state) {
         this.lock.writeLock().lock();
-        if (state >= this.state) {
-            this.state = state + 1;
+        if (state > this.state) {
+            this.state = state;
         }
         this.lock.writeLock().lock();
     }

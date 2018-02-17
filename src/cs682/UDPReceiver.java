@@ -47,11 +47,42 @@ public class UDPReceiver implements Runnable {
     }
 
     private void initMap() {
-        this.map.put(ChatProcotol.Data.packetType.DATA, this::data);
         this.map.put(ChatProcotol.Data.packetType.REQUEST, this::request);
+        this.map.put(ChatProcotol.Data.packetType.ACK, this::ack);
+        this.map.put(ChatProcotol.Data.packetType.DATA, this::data);
+    }
+
+    private void request() {
+        System.out.println("[System] someone just sent a request!");
+
+        if (!Chat.currentDownloads.containsKey(this.from)) {
+            Download download = new Download(Chat.history.get(), 4);
+            String[] host = this.from.split(":");
+
+            Runnable dowTask = new DownloadHandler(download, host[0], host[1]);
+            Thread dowThread = new Thread(dowTask);
+
+            download.setThread(dowThread);
+            Chat.currentDownloads.put(this.from, download);
+            dowThread.start();
+        }
+    }
+
+    private void ack() {
+        System.out.println("[System] received acknowledgement " + this.data.getSeqNo() + ".");
+
+        if (Chat.currentDownloads.containsKey(this.from)) {
+            Download download = Chat.currentDownloads.get(this.from);
+            if (this.data.getSeqNo() >= download.currentState()) {
+                download.changeState(this.data.getSeqNo() + 1);
+                download.getThread().notify();
+            }
+        }
     }
 
     private void data() {
+        System.out.println("[System] received data " + this.data.getSeqNo() + ".");
+
         if (this.data.getSeqNo() == 1 && !Chat.historyFromOthers.containsKey(this.from)) {
             Chat.historyFromOthers.put(this.from, new SharedDataStructure<>());
         }
@@ -101,17 +132,11 @@ public class UDPReceiver implements Runnable {
     }
 
     private void sendAcknowledgement(int seqNo) {
-        ChatProcotol.Data.packetType type = ChatProcotol.Data.packetType.ACK;
         String[] host = this.from.split(":");
 
-        Runnable ackTask = new UDPSender(type, host[0], host[1], seqNo);
+        Runnable ackTask = new UDPSender(host[0], host[1], seqNo);
 
         Thread ackThread = new Thread(ackTask);
         ackThread.start();
-    }
-
-    private void request() {
-        System.out.println("[System] someone just sent a request!");
-        Download download = new Download(Chat.history.get(), 4);
     }
 }

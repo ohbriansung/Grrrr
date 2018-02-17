@@ -200,11 +200,17 @@ public class UserInterface {
         if (this.inputArgs.size() == 2) {
             String requestUser = this.inputArgs.get(1);
             requestUser = requestUser.substring(1, requestUser.length() - 1);
-            ChatProcotol.ZKData zkData = Chat.nodes.get(requestUser);
 
-            Runnable reqTask = new UDPSender(zkData.getIp(), zkData.getUdpport());
-            Thread reqThread = new Thread(reqTask);
-            reqThread.start();
+            try {
+                ChatProcotol.ZKData zkData = Chat.nodes.get(requestUser);
+
+                Runnable reqTask = new UDPSender(zkData.getIp(), zkData.getUdpport());
+                Thread reqThread = new Thread(reqTask);
+                reqThread.start();
+            }
+            catch (NullPointerException npe) {
+                System.err.println("[System] no such user: " + requestUser + ".");
+            }
         }
         else {
             errorMessage();

@@ -2,6 +2,7 @@ package cs682;
 
 import chatprotos.ChatProcotol;
 import com.google.protobuf.ByteString;
+import concurrent.Download;
 import concurrent.SharedDataStructure;
 
 import java.io.IOException;
@@ -49,6 +50,8 @@ public class Chat {
     protected static Hashtable<String, ChatProcotol.ZKData> nodes = new Hashtable<>();
 
     protected static final Hashtable<String, SharedDataStructure<ByteString>> historyFromOthers = new Hashtable<>();
+
+    protected static final Hashtable<String, Download> currentDownloads = new Hashtable<>();
 
     /**
      * Customized ZooKeeper object.
@@ -142,9 +145,13 @@ public class Chat {
         }
 
         // TODO: delete before deploy
-        map.put("username", "csung4");
-        map.put("port", "8080");
-        map.put("udpport", "8081");
+//        map.put("username", "csung4");
+//        map.put("port", "8090");
+//        map.put("udpport", "8091");
+        map.put("username", "csung5");
+        map.put("port", "8092");
+        map.put("udpport", "8093");
+
 
         return map;
     }
