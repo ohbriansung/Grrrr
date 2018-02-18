@@ -34,19 +34,24 @@ public class DownloadHandler implements Runnable {
                 }
 
                 try {
-                    this.wait(1000);
+                    this.wait(500);
                 }
                 catch (Exception ignore) {}
 
                 if (state == this.download.currentState()) {
                     fail++;
                     if (fail >= 5) {
-                        System.err.println("[System] failed to send data.");
+                        System.err.println("[System] failed to send history data.");
                         break;
                     }
-                } else {
+                }
+                else {
                     state = this.download.currentState();
                     fail = 0;
+                }
+
+                if (state > size) {
+                    System.out.println("[System] history data has been successfully delivered.");
                 }
             }
 

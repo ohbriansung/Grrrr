@@ -13,6 +13,7 @@ import java.util.List;
 
 public class UDPReceiver implements Runnable {
 
+    private final static int WINDOW_SIZE = 4;
     private final DatagramPacket packet;
     private final HashMap<ChatProcotol.Data.packetType, Runnable> map;
     private ChatProcotol.Data data;
@@ -28,6 +29,15 @@ public class UDPReceiver implements Runnable {
         this.data = parsePacket();
         this.from = this.packet.getAddress().getHostAddress() + ":" + this.packet.getPort();
         initMap();
+
+        // lost ack debug mode: when a node sent a acknowledgement and we just drop it
+        if (Chat.debug == 2 && this.data.getType() == ChatProcotol.Data.packetType.ACK) {
+            return;
+        }
+        // lost request debug mode: when a node sent request and we just drop it
+        else if (Chat.debug == 3 && this.data.getType() == ChatProcotol.Data.packetType.REQUEST) {
+            return;
+        }
 
         map.get(data.getType()).run();
     }
@@ -56,7 +66,7 @@ public class UDPReceiver implements Runnable {
         System.out.println("[System] someone just request a history data!");
 
         if (!Chat.currentDownloads.containsKey(this.from)) {
-            Download download = new Download(Chat.history.get(), 4);
+            Download download = new Download(Chat.history.get(), WINDOW_SIZE);
             String[] host = this.from.split(":");
 
             Runnable dowTask = new DownloadHandler(download, host[0], host[1]);
@@ -81,8 +91,10 @@ public class UDPReceiver implements Runnable {
     }
 
     private void data() {
-        if (this.data.getSeqNo() == 1 && !Chat.historyFromOthers.containsKey(this.from)) {
-            Chat.historyFromOthers.put(this.from, new SharedDataStructure<>());
+
+        // lost data debug mode: receiving one data packet and drop the rest
+        if (Chat.debug == 1 && this.data.getSeqNo() != 1) {
+            return;
         }
 
         if (Chat.historyFromOthers.containsKey(this.from)) {

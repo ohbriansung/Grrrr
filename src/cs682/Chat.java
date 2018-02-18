@@ -39,6 +39,8 @@ public class Chat {
      */
     protected static volatile boolean alive = true;
 
+    protected static int debug = 0;
+
     /**
      * Thread-safe data structure for storing the history of broadcast messages.
      */
@@ -141,6 +143,10 @@ public class Chat {
             }
             else if (args[i].equals("-udpport") && i < len - 1) {
                 map.put("udpport", args[++i]);
+            }
+            else if (args[i].equals("-debug") && i < len - 1) {
+                // 1: lost data / 2: lost ack / 3: lost request
+                debug = Integer.parseInt(args[++i]);
             }
         }
 
