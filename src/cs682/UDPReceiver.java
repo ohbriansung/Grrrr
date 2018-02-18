@@ -53,7 +53,7 @@ public class UDPReceiver implements Runnable {
     }
 
     private void request() {
-        System.out.println("[System] someone just sent a request!");
+        System.out.println("[System] someone just request a history data!");
 
         if (!Chat.currentDownloads.containsKey(this.from)) {
             Download download = new Download(Chat.history.get(), 4);
@@ -69,20 +69,18 @@ public class UDPReceiver implements Runnable {
     }
 
     private void ack() {
-        System.out.println("[System] received acknowledgement " + this.data.getSeqNo() + ".");
-
         if (Chat.currentDownloads.containsKey(this.from)) {
             Download download = Chat.currentDownloads.get(this.from);
-            if (this.data.getSeqNo() >= download.currentState()) {
-                download.changeState(this.data.getSeqNo() + 1);
+
+            int state = this.data.getSeqNo();
+            if (state >= download.currentState()) {
+                download.changeState(state + 1);
                 download.getThread().notify();
             }
         }
     }
 
     private void data() {
-        System.out.println("[System] received data " + this.data.getSeqNo() + ".");
-
         if (this.data.getSeqNo() == 1 && !Chat.historyFromOthers.containsKey(this.from)) {
             Chat.historyFromOthers.put(this.from, new SharedDataStructure<>());
         }
@@ -99,6 +97,7 @@ public class UDPReceiver implements Runnable {
                 }
 
                 sendAcknowledgement(this.data.getSeqNo());
+                System.out.println("[System] received data, sequence number: " + this.data.getSeqNo() + ".");
             }
 
             if (this.data.getIsLast() && byteStrings.size() == this.data.getSeqNo()) {

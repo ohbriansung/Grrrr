@@ -19,41 +19,38 @@ public class DownloadHandler implements Runnable {
 
     @Override
     public void run() {
-        List<ChatProcotol.Data> dataPackets = this.download.get();
-        int window = this.download.getWindowSize();
-        int size = dataPackets.size();
-        int state = this.download.currentState();
-        int fail = 0;
+        synchronized (this) {
+            List<ChatProcotol.Data> dataPackets = this.download.get();
+            int window = this.download.getWindowSize();
+            int size = dataPackets.size();
+            int state = this.download.currentState();
+            int fail = 0;
 
-        System.out.println("[System] data: " + size + ".");
-        while (state <= size) {
-            System.out.println("[System] send data from " + state + ".");
+            while (state <= size) {
+                for (int i = state; i <= size && i < state + window; i++) {
+                    Runnable sendTask = new UDPSender(this.ip, this.port, dataPackets.get(i - 1));
+                    Thread sendThread = new Thread(sendTask);
+                    sendThread.start();
+                }
 
-            for (int i = state; i < size && i < state + window; i++) {
-                Runnable sendTask = new UDPSender(this.ip, this.port, dataPackets.get(i - 1));
-                Thread sendThread = new Thread(sendTask);
-                sendThread.start();
+                try {
+                    this.wait(1000);
+                }
+                catch (Exception ignore) {}
+
+                if (state == this.download.currentState()) {
+                    fail++;
+                    if (fail >= 5) {
+                        System.err.println("[System] failed to send data.");
+                        break;
+                    }
+                } else {
+                    state = this.download.currentState();
+                    fail = 0;
+                }
             }
 
-            try {
-                wait(1000);
-            }
-            catch (Exception ignore) {}
-
-            if (state == this.download.currentState()) {
-                fail++;
-            }
-            else {
-                state = this.download.currentState();
-                fail = 0;
-            }
-
-            if (fail >= 3) {
-                System.err.println("[System] failed to send data.");
-                break;
-            }
+            Chat.currentDownloads.remove(this.ip + ":" + this.port);
         }
-
-        Chat.currentDownloads.remove(this.ip + ":" + this.port);
     }
 }

@@ -81,6 +81,6 @@ public class Download {
         if (state > this.state) {
             this.state = state;
         }
-        this.lock.writeLock().lock();
+        this.lock.writeLock().unlock();
     }
 }
