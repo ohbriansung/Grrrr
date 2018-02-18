@@ -45,8 +45,7 @@ public class Receiver implements Runnable {
 
             // if received message from unknown nodes, refresh local nodes data
             if (!Chat.nodes.containsKey(request.getFrom())) {
-                UserInterface ui = new UserInterface();
-                ui.collectDetail();
+                Chat.ui.collectDetail();
             }
 
             ChatProcotol.Reply response = ChatProcotol.Reply.newBuilder()

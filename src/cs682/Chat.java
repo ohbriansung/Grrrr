@@ -70,6 +70,8 @@ public class Chat {
      */
     protected static DatagramSocket udpSocket;
 
+    protected static UserInterface ui;
+
     /**
      * Main thread to start the program.
      * Read and parse input arguments from command line first.
@@ -228,8 +230,8 @@ public class Chat {
         Runnable uiTask = new Runnable() {
             @Override
             public void run() {
-                UserInterface ui = new UserInterface();
-                ui.on();
+                Chat.ui = new UserInterface();
+                Chat.ui.on();
             }
         };
 

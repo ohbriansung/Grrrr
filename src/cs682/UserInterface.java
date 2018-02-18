@@ -279,6 +279,7 @@ public class UserInterface {
             Chat.alive = false;
             Chat.zk.deleteMe();
             Chat.receiverSocket.close();
+            Chat.udpSocket.close();
             this.collectorPool.shutdown();
             this.senderPool.shutdown();
 
