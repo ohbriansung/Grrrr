@@ -71,7 +71,7 @@ public class UDPSender implements Runnable {
             }
 
             try {
-                wait(7000);
+                wait(5000);
             }
             catch (InterruptedException ignore) {}
 

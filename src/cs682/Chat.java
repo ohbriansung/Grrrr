@@ -15,14 +15,15 @@ import java.util.concurrent.Executors;
 
 /**
  * A peer to peer chat application developed with ZooKeeper,
- * Google's Protocol Buffers and Maven.
+ * Protocol Buffers and Maven.
+ * Implemented both TCP and UDP Internet protocol suite.
  *
  * Flow:
- * 1. parse args and get ip
- * 2. start listening tcp
- * 3. start listening udp
- * 4. register with zookeeper
- * 5. start ui
+ * 1. parse args and get IP
+ * 2. start listening: TCP
+ * 3. start listening: UDP
+ * 4. register with ZooKeeper
+ * 5. start UI
  * 6. send messages
  *
  * @author Brian Sung
@@ -39,6 +40,9 @@ public class Chat {
      */
     protected static volatile boolean alive = true;
 
+    /**
+     * Debug mode: 0 -> close, 1-> lost data, 2 -> lost ack, 3 -> lost request
+     */
     protected static int debug = 0;
 
     /**
@@ -51,8 +55,14 @@ public class Chat {
      */
     protected static Hashtable<String, ChatProcotol.ZKData> nodes = new Hashtable<>();
 
+    /**
+     * Thread-sate data structure for storing Data packets from other nodes.
+     */
     protected static final Hashtable<String, SharedDataStructure<ByteString>> historyFromOthers = new Hashtable<>();
 
+    /**
+     * Thread-safe data structure for storing history data to send to other nodes.
+     */
     protected static final Hashtable<String, Download> currentDownloads = new Hashtable<>();
 
     /**
@@ -70,12 +80,15 @@ public class Chat {
      */
     protected static DatagramSocket udpSocket;
 
+    /**
+     * Static user interface.
+     */
     protected static UserInterface ui;
 
     /**
      * Main thread to start the program.
      * Read and parse input arguments from command line first.
-     * Start new thread for listening.
+     * Start new thread for listening TCP/UDP.
      * Connect with ZooKeeper and register a node.
      * Finally, start new thread for UI.
      *
@@ -101,7 +114,7 @@ public class Chat {
 
         // build ZooKeeper and register node
         try {
-            zk = new MyZooKeeper.ZKBuilder()
+            Chat.zk = new MyZooKeeper.ZKBuilder()
                     .setUsername(arguments.get("username"))
                     .setIp(InetAddress.getLocalHost().getHostAddress())
                     .setPort(arguments.get("port"))
@@ -120,7 +133,7 @@ public class Chat {
             }
             return;
         }
-        zk.registerMe();
+        Chat.zk.registerMe();
 
         // start user interface to accept commands
         new Chat().startUserInterface();
@@ -148,24 +161,15 @@ public class Chat {
             }
             else if (args[i].equals("-debug") && i < len - 1) {
                 // 1: lost data / 2: lost ack / 3: lost request
-                debug = Integer.parseInt(args[++i]);
+                Chat.debug = Integer.parseInt(args[++i]);
             }
         }
-
-        // TODO: delete before deploy
-//        map.put("username", "csung4");
-//        map.put("port", "8090");
-//        map.put("udpport", "8091");
-        map.put("username", "csung5");
-        map.put("port", "8092");
-        map.put("udpport", "8093");
-
 
         return map;
     }
 
     /**
-     * New thread and thread pool to start listening.
+     * New thread and thread pool to start listening on TCP port.
      * Submit new runnable into pool to handle new connection.
      *
      * @param port
@@ -195,6 +199,12 @@ public class Chat {
         receiverThread.start();
     }
 
+    /**
+     * New thread and thread pool to start listening on UDP port.
+     * Submit new runnable into pool to handle new connection.
+     *
+     * @param udpport
+     */
     private void startUDPReceiver(String udpport) {
         final ExecutorService udpReceiverPool = Executors.newFixedThreadPool(THREADS);
 
@@ -213,7 +223,7 @@ public class Chat {
                     }
                 }
                 catch (IOException ignore) {
-                    // exception will happened when we close receiverSocket
+                    // exception will happened when we close udpSocket
                     udpReceiverPool.shutdown();
                 }
             }

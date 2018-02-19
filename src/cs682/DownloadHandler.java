@@ -5,18 +5,38 @@ import concurrent.Download;
 
 import java.util.List;
 
+/**
+ * A runnable DownloadHandler to handle the download request from other nodes.
+ */
 public class DownloadHandler implements Runnable {
 
     private final Download download;
     private final String ip;
     private final String port;
 
+    /**
+     * DownloadHandler constructor.
+     *
+     * @param download
+     * @param ip
+     * @param port
+     */
     public DownloadHandler(Download download, String ip, String port) {
         this.download = download;
         this.ip = ip;
         this.port = port;
     }
 
+    /**
+     * Prepare the list of Data packets.
+     * Keep sending until the state goes to the end of the list,
+     * or until failing for five times in the same state.
+     * The number of Data packets we send in each state is base on the window size.
+     * After sending all Data packets of current state, wait for waking up by
+     * an acknowledgement from target node for 200 ms.
+     * After waking or 200 ms, if the state didn't change, count a failure.
+     * If the state exceed the end of the list, sending completed.
+     */
     @Override
     public void run() {
         synchronized (this) {
@@ -34,7 +54,7 @@ public class DownloadHandler implements Runnable {
                 }
 
                 try {
-                    this.wait(500);
+                    this.wait(200);
                 }
                 catch (Exception ignore) {}
 

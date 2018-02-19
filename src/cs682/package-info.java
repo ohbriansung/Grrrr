@@ -1,4 +1,4 @@
 /**
- * Main package for the chat application.
+ * Main package of the chat application Grrrr.
  */
 package cs682;

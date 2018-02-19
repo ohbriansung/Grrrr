@@ -38,6 +38,7 @@ public class UserInterface {
         this.com.put("broadcast", this::broadcast);
         this.com.put("request", this::request);
         this.com.put("history", this::history);
+        this.com.put("mock", this::mock);
         this.com.put("style", this::style);
         this.com.put("detail", this::detail);
         this.com.put("exit", this::exit);
@@ -123,9 +124,10 @@ public class UserInterface {
         System.out.println("(4) broadcast \"message\"");
         System.out.println("(5) request [username]");
         System.out.println("(6) history");
-        System.out.println("(7) style content");
-        System.out.println("(8) detail [username]");
-        System.out.println("(9) exit");
+        System.out.println("(7) mock <number>");
+        System.out.println("(8) style <content>");
+        System.out.println("(9) detail [username]");
+        System.out.println("(10) exit");
         System.out.println("* message example: send [csung4] \"hello!\"");
     }
 
@@ -196,6 +198,10 @@ public class UserInterface {
         }
     }
 
+    /**
+     * Create a Data with a type of REQUEST to send to a node
+     * to request a history download approach using UDP.
+     */
     private void request() {
         if (this.inputArgs.size() == 2) {
             String requestUser = this.inputArgs.get(1);
@@ -228,6 +234,30 @@ public class UserInterface {
             for (ChatProcotol.Chat chat : history) {
                 System.out.println(chat.getFrom() + ": " + chat.getMessage());
             }
+        }
+        else {
+            errorMessage();
+        }
+    }
+
+    /**
+     * Create mock broadcast message history for demo.
+     */
+    private void mock() {
+        if (this.inputArgs.size() == 2) {
+            int number = Integer.parseInt(this.inputArgs.get(1));
+            String username = Chat.zk.getUsername();
+            String mockMessage = "This is Grrrr ";
+            boolean isBcast = true;
+
+            for (int i = 1; i <= number; i++) {
+                ChatProcotol.Chat mockData = ChatProcotol.Chat.newBuilder()
+                        .setFrom(username).setMessage(mockMessage + i).setIsBcast(isBcast).build();
+
+                Chat.history.add(mockData);
+            }
+
+            System.out.println("[System] " + number + " mock messages has been generated.");
         }
         else {
             errorMessage();

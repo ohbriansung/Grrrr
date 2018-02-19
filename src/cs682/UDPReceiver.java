@@ -11,6 +11,9 @@ import java.net.DatagramPacket;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * A runnable UDPReceiver to handle Datagram packets.
+ */
 public class UDPReceiver implements Runnable {
 
     private final static int WINDOW_SIZE = 4;
@@ -19,6 +22,11 @@ public class UDPReceiver implements Runnable {
     private ChatProcotol.Data data;
     private String from;
 
+    /**
+     * UDPReceiver constructor.
+     *
+     * @param packet
+     */
     public UDPReceiver(DatagramPacket packet) {
         this.packet = packet;
         this.map = new HashMap<>();
@@ -85,7 +93,7 @@ public class UDPReceiver implements Runnable {
             int state = this.data.getSeqNo();
             if (state >= download.currentState()) {
                 download.changeState(state + 1);
-                download.getThread().notify();
+                download.getThread().notifyAll();
             }
         }
     }
