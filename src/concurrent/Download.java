@@ -18,7 +18,6 @@ public class Download {
     private List<ChatProcotol.Chat> data;
     private byte[] bytes;
     private Thread currentThread;
-
     private ReentrantReadWriteLock lock;
     private int state;
 

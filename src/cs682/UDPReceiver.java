@@ -87,7 +87,7 @@ public class UDPReceiver implements Runnable {
     /**
      * Notify user that there is a download request.
      * Create a thread-save data structure storing current history data.
-     * Set the window size for Go-Back-N algorithm, for now, let's say 4.
+     * Set the window size for Go-Back-N algorithm, let's say 4.
      * Create a new thread to handle this download approach.
      * Register the reference of that thread so we can wake it later.
      * Set up internal state to keep track of the in-progress download.

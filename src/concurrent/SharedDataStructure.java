@@ -37,7 +37,7 @@ public class SharedDataStructure<T> {
      * Return the current size of the data structure.
      *
      * @return int
-     *      - size
+     *      - current size
      */
     public int size() {
         this.lock.readLock().lock();
@@ -49,10 +49,10 @@ public class SharedDataStructure<T> {
 
     /**
      * Deep copy the data list into a new ArrayList to return.
-     * Shallow copy the elements since we are storing immutable objects in this application.
+     * Shallow copy the elements since we are storing immutable objects in this data structure.
      *
      * @return List
-     *      - a list of chat
+     *      - a list of objects
      */
     public List<T> get() {
         List<T> data = new ArrayList<>();
