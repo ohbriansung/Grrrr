@@ -215,7 +215,8 @@ public class Chat {
                     Chat.udpSocket = new DatagramSocket(Integer.parseInt(udpport));
 
                     while (Chat.alive) {
-                        byte[] empty = new byte[1024];
+                        // a Data packet should not exceed 32 bytes in this application
+                        byte[] empty = new byte[32];
                         DatagramPacket packet = new DatagramPacket(empty, empty.length);
 
                         udpSocket.receive(packet);

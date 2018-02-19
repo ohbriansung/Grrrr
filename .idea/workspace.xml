@@ -7,30 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1ccf3383-20db-444b-ad6c-47272bb6b15c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/project2_jar.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cs682/Chat$1.class" afterPath="$PROJECT_DIR$/target/classes/cs682/Chat$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cs682/Chat$2.class" afterPath="$PROJECT_DIR$/target/classes/cs682/Chat$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cs682/Chat$3.class" afterPath="$PROJECT_DIR$/target/classes/cs682/Chat$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cs682/Chat.class" afterPath="$PROJECT_DIR$/target/classes/cs682/Chat.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cs682/DownloadHandler.class" afterPath="$PROJECT_DIR$/target/classes/cs682/DownloadHandler.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cs682/MyZooKeeper$ZKBuilder.class" afterPath="$PROJECT_DIR$/target/classes/cs682/MyZooKeeper$ZKBuilder.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cs682/MyZooKeeper.class" afterPath="$PROJECT_DIR$/target/classes/cs682/MyZooKeeper.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cs682/UDPSender.class" afterPath="$PROJECT_DIR$/target/classes/cs682/UDPSender.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cs682/UserInterface$1.class" afterPath="$PROJECT_DIR$/target/classes/cs682/UserInterface$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cs682/UserInterface$2.class" afterPath="$PROJECT_DIR$/target/classes/cs682/UserInterface$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cs682/UserInterface.class" afterPath="$PROJECT_DIR$/target/classes/cs682/UserInterface.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/chatprotos/package-info.java" afterPath="$PROJECT_DIR$/src/chatprotos/package-info.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/concurrent/Download.java" afterPath="$PROJECT_DIR$/src/concurrent/Download.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/concurrent/SharedDataStructure.java" afterPath="$PROJECT_DIR$/src/concurrent/SharedDataStructure.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/concurrent/package-info.java" afterPath="$PROJECT_DIR$/src/concurrent/package-info.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cs682/Chat.java" afterPath="$PROJECT_DIR$/src/cs682/Chat.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cs682/DownloadHandler.java" afterPath="$PROJECT_DIR$/src/cs682/DownloadHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cs682/MyZooKeeper.java" afterPath="$PROJECT_DIR$/src/cs682/MyZooKeeper.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cs682/UDPReceiver.java" afterPath="$PROJECT_DIR$/src/cs682/UDPReceiver.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cs682/UDPSender.java" afterPath="$PROJECT_DIR$/src/cs682/UDPSender.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cs682/UserInterface.java" afterPath="$PROJECT_DIR$/src/cs682/UserInterface.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cs682/package-info.java" afterPath="$PROJECT_DIR$/src/cs682/package-info.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -42,21 +21,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Chat.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Chat.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/cs682/Chat.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="14" lean-forward="false" selection-start-line="0" selection-start-column="14" selection-end-line="0" selection-end-column="14" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UDPReceiver.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/cs682/UDPReceiver.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="25" column="31" lean-forward="false" selection-start-line="25" selection-start-column="31" selection-end-line="25" selection-end-column="31" />
+              <caret line="0" column="14" lean-forward="true" selection-start-line="0" selection-start-column="14" selection-end-line="0" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -97,11 +66,11 @@
         <option value="$PROJECT_DIR$/src/cs682/package-info.java" />
         <option value="$PROJECT_DIR$/src/concurrent/package-info.java" />
         <option value="$PROJECT_DIR$/src/concurrent/SharedDataStructure.java" />
-        <option value="$PROJECT_DIR$/src/concurrent/Download.java" />
-        <option value="$PROJECT_DIR$/src/cs682/Chat.java" />
         <option value="$PROJECT_DIR$/src/cs682/DownloadHandler.java" />
         <option value="$PROJECT_DIR$/src/cs682/MyZooKeeper.java" />
         <option value="$PROJECT_DIR$/src/cs682/UserInterface.java" />
+        <option value="$PROJECT_DIR$/src/cs682/Chat.java" />
+        <option value="$PROJECT_DIR$/src/concurrent/Download.java" />
         <option value="$PROJECT_DIR$/src/cs682/UDPReceiver.java" />
       </list>
     </option>
@@ -330,7 +299,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3688029" sideWeight="0.5028612" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3688029" sideWeight="0.49713877" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22974607" sideWeight="0.49713877" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -433,16 +402,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/cs682/UDPSender.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40">
-          <caret line="73" column="27" lean-forward="true" selection-start-line="73" selection-start-column="27" selection-end-line="73" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/chatprotos/package-info.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -475,14 +434,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/concurrent/Download.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="12" column="13" lean-forward="false" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/concurrent/SharedDataStructure.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
@@ -499,34 +450,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/cs682/Chat.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="14" lean-forward="false" selection-start-line="0" selection-start-column="14" selection-end-line="0" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/cs682/Sender.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="444">
           <caret line="60" column="50" lean-forward="false" selection-start-line="60" selection-start-column="50" selection-end-line="60" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cs682/UserInterface.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="14" lean-forward="true" selection-start-line="0" selection-start-column="14" selection-end-line="0" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cs682/DownloadHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
           <folding />
         </state>
       </provider>
@@ -539,10 +466,60 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/concurrent/Download.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="19" lean-forward="true" selection-start-line="0" selection-start-column="19" selection-end-line="0" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cs682/UserInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="14" column="13" lean-forward="false" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cs682/DownloadHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cs682/UDPSender.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="14" lean-forward="true" selection-start-line="0" selection-start-column="14" selection-end-line="0" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/target/classes/cs682/DownloadHandler.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#1942#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/cs682/UDPReceiver.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="25" column="31" lean-forward="false" selection-start-line="25" selection-start-column="31" selection-end-line="25" selection-end-column="31" />
+        <state relative-caret-position="0">
+          <caret line="0" column="14" lean-forward="true" selection-start-line="0" selection-start-column="14" selection-end-line="0" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cs682/Chat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="14" lean-forward="true" selection-start-line="0" selection-start-column="14" selection-end-line="0" selection-end-column="14" />
           <folding />
         </state>
       </provider>

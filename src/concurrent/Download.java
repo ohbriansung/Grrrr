@@ -98,7 +98,7 @@ public class Download {
     }
 
     /**
-     * Return the window size for Go-Back-N UDP algorithm.
+     * Return the window size for Go-Back-N algorithm.
      *
      * @return int
      */

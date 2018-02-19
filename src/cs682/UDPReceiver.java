@@ -32,6 +32,11 @@ public class UDPReceiver implements Runnable {
         this.map = new HashMap<>();
     }
 
+    /**
+     * Parse the received packet.
+     * Create a signature for the node sent this packet.
+     * Run the method base on the type of packet.
+     */
     @Override
     public void run() {
         this.data = parsePacket();
@@ -50,6 +55,12 @@ public class UDPReceiver implements Runnable {
         map.get(data.getType()).run();
     }
 
+    /**
+     * Parse the Datagram packet into a ChatProcotol Data object.
+     *
+     * @return ChatProcotol.Data
+     *      - Data in the packet
+     */
     private ChatProcotol.Data parsePacket() {
         byte[] receivedData = this.packet.getData();
 
@@ -64,12 +75,24 @@ public class UDPReceiver implements Runnable {
         return data;
     }
 
+    /**
+     * Initialize methods in HashMap to handle different kinds of Data.
+     */
     private void initMap() {
         this.map.put(ChatProcotol.Data.packetType.REQUEST, this::request);
         this.map.put(ChatProcotol.Data.packetType.ACK, this::ack);
         this.map.put(ChatProcotol.Data.packetType.DATA, this::data);
     }
 
+    /**
+     * Notify user that there is a download request.
+     * Create a thread-save data structure storing current history data.
+     * Set the window size for Go-Back-N algorithm, for now, let's say 4.
+     * Create a new thread to handle this download approach.
+     * Register the reference of that thread so we can wake it later.
+     * Set up internal state to keep track of the in-progress download.
+     * Start download approach.
+     */
     private void request() {
         System.out.println("[System] someone just request a history data!");
 
@@ -84,8 +107,16 @@ public class UDPReceiver implements Runnable {
             Chat.currentDownloads.put(this.from, download);
             dowThread.start();
         }
+        else {
+            System.out.println("[System] ignore since his/her previous request hasn't finished.");
+        }
     }
 
+    /**
+     * Update the internal state if the sequence number in the acknowledgement
+     * is equal or larger than the current state of this download approach.
+     * Wake the in-progress download handler up to proceed.
+     */
     private void ack() {
         if (Chat.currentDownloads.containsKey(this.from)) {
             Download download = Chat.currentDownloads.get(this.from);
@@ -98,8 +129,15 @@ public class UDPReceiver implements Runnable {
         }
     }
 
+    /**
+     * If the sequence number of a new Data is the one we expected,
+     * store it into the thread-save data structure.
+     * Send back acknowledgement with same sequence number.
+     * Notify user receiving a valid Data.
+     * If the packet is the last one, build up a new history
+     * and replace user's history with this one.
+     */
     private void data() {
-
         // lost data debug mode: receiving one data packet and drop the rest
         if (Chat.debug == 1 && this.data.getSeqNo() != 1) {
             return;
@@ -126,6 +164,14 @@ public class UDPReceiver implements Runnable {
         }
     }
 
+    /**
+     * Recover the original byte array of history data we received.
+     * Parse the byte array into a list of Chat history.
+     * Replace user's history with this one.
+     * Notify user.
+     *
+     * @param byteStrings
+     */
     private void finishData(SharedDataStructure<ByteString> byteStrings) {
         List<ByteString> list = byteStrings.get();
         int len = (list.size() - 1) * 10 + this.data.getData().toByteArray().length;
@@ -150,6 +196,11 @@ public class UDPReceiver implements Runnable {
         }
     }
 
+    /**
+     * Create a thread to send back an acknowledgement.
+     *
+     * @param seqNo
+     */
     private void sendAcknowledgement(int seqNo) {
         String[] host = this.from.split(":");
 
