@@ -41,7 +41,7 @@ public class Chat {
     protected static volatile boolean alive = true;
 
     /**
-     * Debug mode: 0 -> close, 1-> lost data, 2 -> lost ack, 3 -> lost request
+     * Debug mode: 0: close, 1: lost data, 2: lost ack, 3: lost request
      */
     protected static int debug = 0;
 
@@ -144,6 +144,7 @@ public class Chat {
      *
      * @param args
      * @return Map
+     *      - key-value pairs of arguments
      */
     private static Map<String, String> parseArgs(String[] args) {
         Map<String, String> map = new HashMap<>();

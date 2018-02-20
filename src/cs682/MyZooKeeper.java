@@ -16,7 +16,7 @@ public class MyZooKeeper {
 
     private static final String ZK_HOST = "mc01.cs.usfca.edu";
     private static final int ZK_PORT = 2181;
-    private static final String ZK_GROUP = "/zkdemojuzi";// = "/CS682_Chat";
+    private static final String ZK_GROUP = "/CS682_Chat";
     private final String username;
     private final String ip;
     private final String port;
