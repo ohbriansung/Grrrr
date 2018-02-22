@@ -7,18 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1ccf3383-20db-444b-ad6c-47272bb6b15c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cs682/Chat$1.class" afterPath="$PROJECT_DIR$/target/classes/cs682/Chat$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cs682/Chat$2.class" afterPath="$PROJECT_DIR$/target/classes/cs682/Chat$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cs682/Chat$3.class" afterPath="$PROJECT_DIR$/target/classes/cs682/Chat$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cs682/Chat.class" afterPath="$PROJECT_DIR$/target/classes/cs682/Chat.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cs682/DownloadHandler.class" afterPath="$PROJECT_DIR$/target/classes/cs682/DownloadHandler.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cs682/MyZooKeeper$ZKBuilder.class" afterPath="$PROJECT_DIR$/target/classes/cs682/MyZooKeeper$ZKBuilder.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cs682/MyZooKeeper.class" afterPath="$PROJECT_DIR$/target/classes/cs682/MyZooKeeper.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cs682/UDPReceiver.class" afterPath="$PROJECT_DIR$/target/classes/cs682/UDPReceiver.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cs682/Chat.java" afterPath="$PROJECT_DIR$/src/cs682/Chat.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cs682/DownloadHandler.java" afterPath="$PROJECT_DIR$/src/cs682/DownloadHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cs682/UDPReceiver.java" afterPath="$PROJECT_DIR$/src/cs682/UDPReceiver.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -33,8 +22,8 @@
       <file leaf-file-name="Chat.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/cs682/Chat.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="14" lean-forward="true" selection-start-line="0" selection-start-column="14" selection-end-line="0" selection-end-column="14" />
+            <state relative-caret-position="279">
+              <caret line="225" column="21" lean-forward="true" selection-start-line="225" selection-start-column="21" selection-end-line="225" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -74,14 +63,14 @@
         <option value="$PROJECT_DIR$/src/chatprotos/package-info.java" />
         <option value="$PROJECT_DIR$/src/cs682/package-info.java" />
         <option value="$PROJECT_DIR$/src/concurrent/package-info.java" />
-        <option value="$PROJECT_DIR$/src/cs682/UserInterface.java" />
         <option value="$PROJECT_DIR$/src/concurrent/SharedDataStructure.java" />
         <option value="$PROJECT_DIR$/src/concurrent/Download.java" />
         <option value="$PROJECT_DIR$/src/cs682/UDPSender.java" />
         <option value="$PROJECT_DIR$/src/cs682/UDPReceiver.java" />
-        <option value="$PROJECT_DIR$/src/cs682/Chat.java" />
         <option value="$PROJECT_DIR$/src/cs682/MyZooKeeper.java" />
         <option value="$PROJECT_DIR$/src/cs682/DownloadHandler.java" />
+        <option value="$PROJECT_DIR$/src/cs682/UserInterface.java" />
+        <option value="$PROJECT_DIR$/src/cs682/Chat.java" />
       </list>
     </option>
   </component>
@@ -447,14 +436,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/cs682/UserInterface.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="14" column="13" lean-forward="false" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/target/classes/cs682/DownloadHandler.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -502,8 +483,8 @@
         <state relative-caret-position="0">
           <caret line="0" column="19" lean-forward="true" selection-start-line="0" selection-start-column="19" selection-end-line="0" selection-end-column="19" />
           <folding>
-            <element signature="e#2672#2673#0" expanded="true" />
-            <element signature="e#2711#2712#0" expanded="true" />
+            <element signature="e#2672#2673#0" expanded="false" />
+            <element signature="e#2711#2712#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -532,10 +513,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/cs682/Chat.java">
+    <entry file="file://$PROJECT_DIR$/src/cs682/UserInterface.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="14" lean-forward="true" selection-start-line="0" selection-start-column="14" selection-end-line="0" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cs682/Chat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="279">
+          <caret line="225" column="21" lean-forward="true" selection-start-line="225" selection-start-column="21" selection-end-line="225" selection-end-column="21" />
           <folding />
         </state>
       </provider>

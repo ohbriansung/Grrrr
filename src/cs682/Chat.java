@@ -221,13 +221,8 @@ public class Chat {
                         byte[] empty = new byte[32];
                         DatagramPacket packet = new DatagramPacket(empty, empty.length);
 
-                        try {
-                            udpSocket.receive(packet);
-                            udpReceiverPool.submit(new UDPReceiver(packet));
-                        }
-                        catch (Exception ignore) {
-                            // a Data packet exceeds 32 bytes
-                        }
+                        udpSocket.receive(packet);
+                        udpReceiverPool.submit(new UDPReceiver(packet));
                     }
                 }
                 catch (IOException ignore) {
