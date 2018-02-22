@@ -10,6 +10,7 @@ import java.util.List;
  */
 public class DownloadHandler implements Runnable {
 
+    private final static int WINDOW_SIZE = 4;
     private final Download download;
     private final String ip;
     private final String port;
@@ -56,25 +57,28 @@ public class DownloadHandler implements Runnable {
                 try {
                     this.wait(200);
                 }
-                catch (Exception ignore) {}
+                catch (InterruptedException ignore) {}
 
                 if (state == this.download.currentState()) {
                     fail++;
+                    if (Chat.debug != 0) {
+                        System.err.println("[Debug] didn't get any acknowledgement, resending...");
+                    }
+
                     if (fail >= 5) {
                         System.err.println("[System] failed to send history data.");
                         break;
                     }
                 }
                 else {
-                    state = this.download.currentState();
+                    state = Math.min(this.download.currentState(), state + this.WINDOW_SIZE);
                     fail = 0;
-                }
-
-                if (state > size) {
-                    System.out.println("[System] history data has been successfully delivered.");
                 }
             }
 
+            if (state > size) {
+                System.out.println("[System] history data has been successfully delivered.");
+            }
             Chat.currentDownloads.remove(this.ip + ":" + this.port);
         }
     }

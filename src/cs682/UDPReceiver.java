@@ -45,10 +45,12 @@ public class UDPReceiver implements Runnable {
 
         // lost ack debug mode: when a node sent a acknowledgement and we just drop it
         if (Chat.debug == 2 && this.data.getType() == ChatProcotol.Data.packetType.ACK) {
+            System.out.println("[Debug] dropping ACK packet no: " + this.data.getSeqNo() + ".");
             return;
         }
         // lost request debug mode: when a node sent request and we just drop it
         else if (Chat.debug == 3 && this.data.getType() == ChatProcotol.Data.packetType.REQUEST) {
+            System.out.println("[Debug] dropping REQUEST packet.");
             return;
         }
 
@@ -114,7 +116,8 @@ public class UDPReceiver implements Runnable {
 
     /**
      * Update the internal state if the sequence number in the acknowledgement
-     * is equal or larger than the current state of this download approach.
+     * is equal or larger than the current state of this download approach,
+     * and also inside the window size.
      * Wake the in-progress download handler up to proceed.
      */
     private void ack() {
@@ -122,7 +125,7 @@ public class UDPReceiver implements Runnable {
             Download download = Chat.currentDownloads.get(this.from);
 
             int state = this.data.getSeqNo();
-            if (state >= download.currentState()) {
+            if (state >= download.currentState() && state <= download.currentState() + this.WINDOW_SIZE) {
                 download.changeState(state + 1);
                 download.getThread().notifyAll();
             }
@@ -140,6 +143,7 @@ public class UDPReceiver implements Runnable {
     private void data() {
         // lost data debug mode: receiving one data packet and drop the rest
         if (Chat.debug == 1 && this.data.getSeqNo() != 1) {
+            System.out.println("[Debug] dropping DATA packet no: " + this.data.getSeqNo() + ".");
             return;
         }
 

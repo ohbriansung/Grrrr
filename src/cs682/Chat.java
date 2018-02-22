@@ -126,6 +126,7 @@ public class Chat {
 
             try { // shutdown
                 Chat.receiverSocket.close();
+                Chat.udpSocket.close();
             }
             catch (IOException ioe) {
                 System.out.println("[System] Exception happened when shutting down.");
@@ -220,8 +221,13 @@ public class Chat {
                         byte[] empty = new byte[32];
                         DatagramPacket packet = new DatagramPacket(empty, empty.length);
 
-                        udpSocket.receive(packet);
-                        udpReceiverPool.submit(new UDPReceiver(packet));
+                        try {
+                            udpSocket.receive(packet);
+                            udpReceiverPool.submit(new UDPReceiver(packet));
+                        }
+                        catch (Exception ignore) {
+                            // a Data packet exceeds 32 bytes
+                        }
                     }
                 }
                 catch (IOException ignore) {
