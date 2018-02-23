@@ -105,7 +105,7 @@ public class UDPSender implements Runnable {
             Chat.historyFromOthers.put(target, new SharedDataStructure<>());
         }
 
-        // try three times
+        // try three times, 15 seconds total
         boolean success = false;
         for (int i = 0; i < 3; i++) {
             if (!success) {
@@ -123,7 +123,7 @@ public class UDPSender implements Runnable {
             }
             else if (Chat.historyFromOthers.containsKey(target)
                     && Chat.historyFromOthers.get(target).size() == 0) {
-                System.out.println("[System] hasn't received a reply, resending request...");
+                System.out.println("[System] hasn't received any response, resending request...");
             }
             else {
                 // still receiving data
@@ -145,6 +145,10 @@ public class UDPSender implements Runnable {
         ChatProcotol.Data data = ChatProcotol.Data.newBuilder()
                 .setType(this.type).setSeqNo(this.seqNo).build();
 
+        if (Chat.debug) {
+            System.out.println("[Debug] sending ACK packet, sequence number: " + data.getSeqNo() + ".");
+        }
+
         send(data);
     }
 
@@ -152,6 +156,10 @@ public class UDPSender implements Runnable {
      * Send a Data packet.
      */
     private void data() {
+        if (Chat.debug) {
+            System.out.println("[Debug] sending DATA packet, sequence number: " + this.data.getSeqNo() + ".");
+        }
+
         send(this.data);
     }
 

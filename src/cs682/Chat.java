@@ -41,9 +41,9 @@ public class Chat {
     protected static volatile boolean alive = true;
 
     /**
-     * Debug mode: 0: close, 1: lost data, 2: lost ack, 3: lost request
+     * An on/off switch for debug mode.
      */
-    protected static int debug = 0;
+    protected static boolean debug = false;
 
     /**
      * Thread-safe data structure for storing the history of broadcast messages.
@@ -162,8 +162,7 @@ public class Chat {
                 map.put("udpport", args[++i]);
             }
             else if (args[i].equals("-debug") && i < len - 1) {
-                // 1: lost data / 2: lost ack / 3: lost request
-                Chat.debug = Integer.parseInt(args[++i]);
+                Chat.debug = true;
             }
         }
 

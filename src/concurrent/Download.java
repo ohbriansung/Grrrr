@@ -20,6 +20,7 @@ public class Download {
     private Thread currentThread;
     private ReentrantReadWriteLock lock;
     private int state;
+    private volatile boolean waked;
 
     /**
      * Download Constructor for storing current history data.
@@ -35,6 +36,7 @@ public class Download {
 
         this.lock = new ReentrantReadWriteLock();
         this.state = 1;
+        this.waked = false;
 
         convertIntoBytes();
         packIntoTenBytes();
@@ -130,5 +132,28 @@ public class Download {
             this.state = state;
         }
         this.lock.writeLock().unlock();
+    }
+
+    /**
+     * Check if the thread was waked or timeout.
+     *
+     * @return boolean
+     */
+    public boolean isWaked() {
+        return this.waked;
+    }
+
+    /**
+     * Set waked condition back to false.
+     */
+    public void resetWake() {
+        this.waked = false;
+    }
+
+    /**
+     * Set waked condition.
+     */
+    public void setWake() {
+        this.waked = true;
     }
 }

@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 /**
  * A runnable UDPReceiver to handle Datagram packets.
@@ -43,17 +44,6 @@ public class UDPReceiver implements Runnable {
         this.from = this.packet.getAddress().getHostAddress() + ":" + this.packet.getPort();
         initMap();
 
-        // lost ack debug mode: when a node sent a acknowledgement and we just drop it
-        if (Chat.debug == 2 && this.data.getType() == ChatProcotol.Data.packetType.ACK) {
-            System.out.println("[Debug] dropping ACK packet no: " + this.data.getSeqNo() + ".");
-            return;
-        }
-        // lost request debug mode: when a node sent request and we just drop it
-        else if (Chat.debug == 3 && this.data.getType() == ChatProcotol.Data.packetType.REQUEST) {
-            System.out.println("[Debug] dropping REQUEST packet.");
-            return;
-        }
-
         map.get(data.getType()).run();
     }
 
@@ -71,7 +61,7 @@ public class UDPReceiver implements Runnable {
             data = ChatProcotol.Data.parseDelimitedFrom(inStream);
         }
         catch (IOException ioe) {
-            System.err.println(ioe);
+            System.err.println("[System] having issue parsing packet.");
         }
 
         return data;
@@ -96,8 +86,13 @@ public class UDPReceiver implements Runnable {
      * Start download approach.
      */
     private void request() {
-        System.out.println("[System] someone just request a history data!");
+        // debug mode:
+        if (Chat.debug && randomlyDrop()) {
+            System.out.println("[Debug] dropping REQUEST packet.");
+            return;
+        }
 
+        System.out.println("[System] someone just request a history data!");
         if (!Chat.currentDownloads.containsKey(this.from)) {
             Download download = new Download(Chat.history.get(), WINDOW_SIZE);
             String[] host = this.from.split(":");
@@ -110,7 +105,7 @@ public class UDPReceiver implements Runnable {
             dowThread.start();
         }
         else {
-            System.out.println("[System] ignore since his/her previous request hasn't finished.");
+            System.out.println("[System] ignored, since his/her previous request hasn't finished.");
         }
     }
 
@@ -126,8 +121,19 @@ public class UDPReceiver implements Runnable {
 
             int state = this.data.getSeqNo();
             if (state >= download.currentState() && state <= download.currentState() + this.WINDOW_SIZE) {
+                // debug mode:
+                if (Chat.debug && randomlyDrop()) {
+                    System.out.println("[Debug] dropping ACK packet, sequence number: " + this.data.getSeqNo() + ".");
+                    return;
+                }
+
+                if (Chat.debug) {
+                    System.out.println("[Debug] received ACK packet, sequence number: " + this.data.getSeqNo() + ".");
+                }
+
                 download.changeState(state + 1);
-                download.getThread().notifyAll();
+                download.setWake();
+                download.getThread().notify();
             }
         }
     }
@@ -141,25 +147,26 @@ public class UDPReceiver implements Runnable {
      * and replace user's history with this one.
      */
     private void data() {
-        // lost data debug mode: receiving one data packet and drop the rest
-        if (Chat.debug == 1 && this.data.getSeqNo() != 1) {
-            System.out.println("[Debug] dropping DATA packet no: " + this.data.getSeqNo() + ".");
-            return;
-        }
-
         if (Chat.historyFromOthers.containsKey(this.from)) {
             SharedDataStructure<ByteString> byteStrings = Chat.historyFromOthers.get(this.from);
 
             if (this.data.getSeqNo() == byteStrings.size() + 1) {
-                int len = this.data.getData().toByteArray().length;
 
-                // if not the last packet, the data size should be 10
-                if (len == 10 || this.data.getIsLast()) {
-                    byteStrings.add(this.data.getData());
+                // debug mode
+                if (Chat.debug && randomlyDrop()) {
+                    System.out.println("[Debug] dropping DATA packet, sequence number: " + this.data.getSeqNo() + ".");
+                    return;
                 }
 
-                sendAcknowledgement(this.data.getSeqNo());
-                System.out.println("[System] received data, sequence number: " + this.data.getSeqNo() + ".");
+                int len = this.data.getData().toByteArray().length;
+                if (len == 10 || this.data.getIsLast()) { // if not the last packet, the data size should be 10
+                    boolean success = byteStrings.addOnSeq(this.data.getSeqNo(), this.data.getData());
+
+                    if (success) {
+                        System.out.println("[System] received DATA packet, sequence number: " + this.data.getSeqNo() + ".");
+                        sendAcknowledgement(this.data.getSeqNo());
+                    }
+                }
             }
 
             if (this.data.getIsLast() && byteStrings.size() == this.data.getSeqNo()) {
@@ -212,5 +219,18 @@ public class UDPReceiver implements Runnable {
 
         Thread ackThread = new Thread(ackTask);
         ackThread.start();
+    }
+
+    /**
+     * Randomly generate an integer in range 1 ~ 7
+     * to drop a packet in 1 out of 7 chance when the number is 1.
+     *
+     * @return boolean
+     *      - drop or not
+     */
+    private boolean randomlyDrop() {
+        Random r = new Random();
+        int chance = r.nextInt(7) + 1; // 1 out of 7 chance to lost packet
+        return (chance == 1);
     }
 }

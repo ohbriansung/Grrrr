@@ -34,6 +34,29 @@ public class SharedDataStructure<T> {
     }
 
     /**
+     * Thread-safe add method base on sequence number.
+     * Use for receiving Data packet, and this
+     * method makes sure that we add data in order.
+     *
+     * @param seqNo
+     * @param element
+     * @return boolean
+     *      - success or not
+     */
+    public boolean addOnSeq(int seqNo, T element) {
+        boolean result = false;
+
+        this.lock.writeLock().lock();
+        if (seqNo == this.data.size() + 1) {
+            this.data.add(element);
+            result = true;
+        }
+        this.lock.writeLock().unlock();
+
+        return result;
+    }
+
+    /**
      * Return the current size of the data structure.
      *
      * @return int

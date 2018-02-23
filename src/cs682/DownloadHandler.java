@@ -46,12 +46,16 @@ public class DownloadHandler implements Runnable {
             int size = dataPackets.size();
             int state = this.download.currentState();
             int fail = 0;
+            int preEnd = 0;
 
             while (state <= size) {
-                for (int i = state; i <= size && i < state + window; i++) {
+                int i = (this.download.isWaked() ? preEnd + 1 : state);
+                this.download.resetWake();
+                for (; i <= size && i < state + window; i++) {
                     Runnable sendTask = new UDPSender(this.ip, this.port, dataPackets.get(i - 1));
                     Thread sendThread = new Thread(sendTask);
                     sendThread.start();
+                    preEnd = i;
                 }
 
                 try {
@@ -61,8 +65,8 @@ public class DownloadHandler implements Runnable {
 
                 if (state == this.download.currentState()) {
                     fail++;
-                    if (Chat.debug != 0) {
-                        System.err.println("[Debug] didn't get any acknowledgement, resending...");
+                    if (Chat.debug) {
+                        System.out.println("[Debug] didn't get any acknowledgement, resending...");
                     }
 
                     if (fail >= 5) {
