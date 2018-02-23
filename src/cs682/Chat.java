@@ -161,7 +161,7 @@ public class Chat {
             else if (args[i].equals("-udpport") && i < len - 1) {
                 map.put("udpport", args[++i]);
             }
-            else if (args[i].equals("-debug") && i < len - 1) {
+            else if (args[i].equals("-debug")) {
                 Chat.debug = true;
             }
         }

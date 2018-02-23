@@ -53,22 +53,6 @@ public class UDPSender implements Runnable {
     }
 
     /**
-     * Overloading UDPSender constructor.
-     * DATA packet type.
-     *
-     * @param ip
-     * @param port
-     * @param data
-     */
-    public UDPSender(String ip, String port, ChatProcotol.Data data) {
-        this.map = new HashMap<>();
-        this.type = ChatProcotol.Data.packetType.DATA;
-        this.ip = ip;
-        this.port = port;
-        this.data = data;
-    }
-
-    /**
      * Run the method base on the type of packet.
      */
     @Override
@@ -84,7 +68,6 @@ public class UDPSender implements Runnable {
     private void initMap() {
         this.map.put(ChatProcotol.Data.packetType.REQUEST, this::request);
         this.map.put(ChatProcotol.Data.packetType.ACK, this::ack);
-        this.map.put(ChatProcotol.Data.packetType.DATA, this::data);
     }
 
     /**
@@ -150,17 +133,6 @@ public class UDPSender implements Runnable {
         }
 
         send(data);
-    }
-
-    /**
-     * Send a Data packet.
-     */
-    private void data() {
-        if (Chat.debug) {
-            System.out.println("[Debug] sending DATA packet, sequence number: " + this.data.getSeqNo() + ".");
-        }
-
-        send(this.data);
     }
 
     /**

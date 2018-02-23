@@ -3,6 +3,10 @@ package cs682;
 import chatprotos.ChatProcotol;
 import concurrent.Download;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.InetAddress;
 import java.util.List;
 
 /**
@@ -52,9 +56,7 @@ public class DownloadHandler implements Runnable {
                 int i = (this.download.isWaked() ? preEnd + 1 : state);
                 this.download.resetWake();
                 for (; i <= size && i < state + window; i++) {
-                    Runnable sendTask = new UDPSender(this.ip, this.port, dataPackets.get(i - 1));
-                    Thread sendThread = new Thread(sendTask);
-                    sendThread.start();
+                    send(dataPackets.get(i - 1));
                     preEnd = i;
                 }
 
@@ -85,5 +87,21 @@ public class DownloadHandler implements Runnable {
             }
             Chat.currentDownloads.remove(this.ip + ":" + this.port);
         }
+    }
+
+    private void send(ChatProcotol.Data data) {
+        if (Chat.debug) {
+            System.out.println("[Debug] sending DATA packet, sequence number: " + data.getSeqNo() + ".");
+        }
+
+        try (ByteArrayOutputStream outStream = new ByteArrayOutputStream()) {
+            data.writeDelimitedTo(outStream);
+            byte[] packet = outStream.toByteArray();
+            DatagramPacket datagramPacket = new DatagramPacket(packet, packet.length
+                    , InetAddress.getByName(this.ip), Integer.parseInt(this.port));
+
+            Chat.udpSocket.send(datagramPacket);
+        }
+        catch (IOException ignore) {}
     }
 }

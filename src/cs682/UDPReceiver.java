@@ -135,6 +135,9 @@ public class UDPReceiver implements Runnable {
                 download.setWake();
                 download.getThread().notify();
             }
+            else if (Chat.debug) {
+                System.out.println("[Debug] ignore late ACK packet, sequence number: " + this.data.getSeqNo() + ".");
+            }
         }
     }
 
@@ -167,6 +170,9 @@ public class UDPReceiver implements Runnable {
                         sendAcknowledgement(this.data.getSeqNo());
                     }
                 }
+            }
+            else if (Chat.debug) {
+                System.out.println("[Debug] ignore unexpected DATA packet, sequence number: " + this.data.getSeqNo() + ".");
             }
 
             if (this.data.getIsLast() && byteStrings.size() == this.data.getSeqNo()) {
