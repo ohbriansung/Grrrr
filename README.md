@@ -42,7 +42,7 @@ $ java -cp project2.jar cs682.Chat -user <username> -port <port> -udpport <udppo
 >> request [username]
 ```
 
-**Notice that before running Grrrr, the ZooKeeper server and the parameters in MyZooKeeper class should be set up first.**
+*Notice that before running Grrrr, the ZooKeeper server and the parameters in MyZooKeeper class should be set up first.*
 
 ## Debug mode
 
@@ -58,7 +58,16 @@ $ java -cp project2.jar cs682.Chat -user <username> -port <port> -udpport <udppo
 >> mock <number>
 ```
 
-**Under debug mode, user can easily track the entire process of data streaming.**
+*Under debug mode, user can easily track the entire process of data streaming.*
+
+## Author and Contributor
+
+0. Chien-Yu (Brian) Sung
+1. Dr. Rollins - [page](http://srollins.cs.usfca.edu/)
+
+## Acknowledgment
+
+This project is for academic purposes only.
 
 ## References
 * [University of San Francisco](https://www.usfca.edu/)
@@ -66,12 +75,3 @@ $ java -cp project2.jar cs682.Chat -user <username> -port <port> -udpport <udppo
 * [Protocol Buffers](https://developers.google.com/protocol-buffers/)
 * [Maven](https://maven.apache.org/guides/getting-started/maven-in-five-minutes.html)
 * [Imgur](https://imgur.com/)
-
-## Acknowledgment
-
-This is a course project, not using for any commercial purpose.
-
-## Author and contributors
-
-* **Brian Sung** - *Graduate student in department of Computer Science at University of San Francisco* - [LinkedIn](https://www.linkedin.com/in/ohbriansung/)
-* **Dr. Rollins** - *Professor in department of Computer Science at University of San Francisco* - [page](http://srollins.cs.usfca.edu/)
